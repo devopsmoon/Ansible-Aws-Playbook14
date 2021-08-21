@@ -76,3 +76,108 @@
         rules:
           - proto: all
             group_id: "{{vprostacksg_out.group_id}}"
+
+    - name: creating the nginx ec2 instance
+      ec2:
+        key_name: login-key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{nginx_ami}}"
+        wait: yes
+        wait_timeout: 200
+        instance_tags:
+          Name: nginx-server
+          project: vprofile
+          owner: devopsteam
+        exact_count: 1
+        count_tag:
+          Name: nginx-server
+          project: vprofile
+          owner: devopsteam
+        group_id: "{{vprostacksg_out.group_id}}"
+        vpc_subnet_id: "{{prisub1id}}"
+      register: nginxsrv_out
+
+    - name: creating the tomcat ec2 instance
+      ec2:
+        key_name: login-key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{tomcat_ami}}"
+        wait: yes
+        wait_timeout: 200
+        instance_tags:
+          Name: tomcat-server
+          project: vprofile
+          owner: devopsteam
+        exact_count: 1
+        count_tag:
+          Name: tomcat-server
+          project: vprofile
+          owner: devopsteam
+        group_id: "{{vprostacksg_out.group.id}}"
+        vpc_subnet_id: "{{prisub1id}}"
+      register: tomcatsrv_out
+
+    - name: creating the memcache server
+      ec2:
+        key_name: login-key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{memcache_ami}}"
+        wait: yes
+        wait_timeout: 200
+        instance_tags:
+          Name: mem01-server
+          project: vprofile
+          owner: devopsteam
+        exact_count: 1
+        count_tag:
+          Name: mem01-server
+          project: devopsteam
+          owner: devopsteam
+        group_id: "{{vprostaksg_out.group_id}}"
+        vpc_subnet_id: "{{prisub1id}}"
+      register: mem01srv_out
+
+    - name: creating the rabbitmq server
+      ec2:
+        key_name: login-key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{rabbtimq_ami}}"
+        wait: yes
+        wait_timeout: 200
+        exact_count: 1
+        count_tag:
+          Name: rmq01-server
+          project: vprofile
+          owner: devopsteam
+        group_id: "{{vprostacksg_out.group_id}}"
+        vpc_subnet_id: "{{prisub1id}}"
+      register: rmq01srv_out
+
+    - name: creating the mysql server
+      ec2:
+        key_name: login-key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{mysql_ami}}"
+        instance_tags:
+          Name: db01-server
+          project: vprofile
+          owner: devopsteam
+        exact_count: 1
+        count_tag:
+          Name: db01-server
+          project: vprofile
+          owner: devopsteam
+        group_id: "{{vprostacksg_out.group_id}}"
+        vpc_subnet_id: "{{prisub1id}}"
+      register: db01srv_out
+
+    - debug:
+        var: db01srv_out
+
+
+
