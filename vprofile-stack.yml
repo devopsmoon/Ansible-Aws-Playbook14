@@ -149,7 +149,7 @@
         key_name: login-key
         region: "{{region}}"
         instance_type: t2.micro
-        image: "{{rabbtimq_ami}}"
+        image: "{{rabbitmq_ami}}"
         wait: yes
         wait_timeout: 200
         exact_count: 1
