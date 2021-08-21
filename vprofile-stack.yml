@@ -140,7 +140,7 @@
           Name: mem01-server
           project: devopsteam
           owner: devopsteam
-        group_id: "{{vprostaksg_out.group_id}}"
+        group_id: "{{vprostacksg_out.group_id}}"
         vpc_subnet_id: "{{prisub1id}}"
       register: mem01srv_out
 
