@@ -70,7 +70,7 @@
         vpc_id: "{{vpcout.vpc.id}}"
         region: "{{region}}"
         az: "{{zone2}}"
-        cidr: "{{prisubcidr2}}"
+        cidr: "{{prisub2cidr}}"
         state: present
         tags:
           Name: vprofile-prisubnet2
