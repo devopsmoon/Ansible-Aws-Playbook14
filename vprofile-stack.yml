@@ -138,7 +138,7 @@
         exact_count: 1
         count_tag:
           Name: mem01-server
-          project: devopsteam
+          project: vprofile
           owner: devopsteam
         group_id: "{{vprostacksg_out.group_id}}"
         vpc_subnet_id: "{{prisub1id}}"
@@ -152,6 +152,10 @@
         image: "{{rabbitmq_ami}}"
         wait: yes
         wait_timeout: 200
+        instance_tags:
+          Name: rmq01-server
+          project: vprofile
+          owner: devopsteam
         exact_count: 1
         count_tag:
           Name: rmq01-server
