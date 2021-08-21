@@ -132,6 +132,8 @@
         routes:
           - dest: 0.0.0.0/0
             gateway_id: "{{natgw_out.nat_gateway_id}}"
+        tags:
+          Name: vprofile-prirt
       register: prirt_out
 
     - debug:
