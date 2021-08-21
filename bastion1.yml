@@ -32,6 +32,8 @@
 
     - name: creating the securty group for bastion host
       ec2_group:
+        name: bastion-sg
+        description: allow port 22 from bastion security group
         vpc_id: "{{vpcoutid}}"
         region: "{{region}}"
         state: present
