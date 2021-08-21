@@ -13,6 +13,9 @@
     - name: importing the variables file3
       include_vars: vars/vpc-output.var
 
+    - name: improting the variables file4
+      include_vars: vars/vprofile_setup
+
     - name: creating the key pair for ec2_instances
       ec2_key:
         name: login-key
