@@ -119,7 +119,7 @@
           Name: tomcat-server
           project: vprofile
           owner: devopsteam
-        group_id: "{{vprostacksg_out.group.id}}"
+        group_id: "{{vprostacksg_out.group_id}}"
         vpc_subnet_id: "{{prisub1id}}"
       register: tomcatsrv_out
 
