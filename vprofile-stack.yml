@@ -76,6 +76,7 @@
         region: "{{region}}"
         vpc_id: "{{vpcoutid}}"
         state: present
+        purge_rules: no
         rules:
           - proto: all
             group_id: "{{vprostacksg_out.group_id}}"
