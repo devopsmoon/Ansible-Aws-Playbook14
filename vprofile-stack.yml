@@ -185,7 +185,26 @@
       register: db01srv_out
 
     - debug:
-        var: db01srv_out
+        var: db01srv_out.tagged_instances[0].id
+
+    - local_action:
+        module: ec2_elb_lb
+        name: "vprofile-elb"
+        region: "{{region}}"
+        state: present
+        instance_ids:
+          - "{{nginxsrv_out.tagged_instances[0].id}}"
+        purge_instance_id: true
+        security_group_ids: "{{vprofelbsg_out.group+_id}}"
+        subnets:
+          - "{{pubsub1id}}"
+          - "{{pubsub2id}}"
+          - "{{pubsub3id}}"
+        listeners:
+          - protocol: http
+            load_balancer_port: 80
+            instance_port: 80
+
 
 
 
