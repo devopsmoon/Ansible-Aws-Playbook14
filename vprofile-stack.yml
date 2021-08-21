@@ -1,0 +1,78 @@
+- name: creating the security group for ec2_instances
+  hosts: localhost
+  become: true
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: importing the variables file1
+      include_vars: vars/vpc_setup
+
+    - name: importing the variables file2
+      include_vars: vars/bastion_setup
+
+    - name: importing the variables file3
+      include_vars: vars/vpc-output.var
+
+    - name: creating the key pair for ec2_instances
+      ec2_key:
+        name: login-key
+        region: "{{region}}"
+        state: present
+      register: keyout
+
+    - debug:
+        var: keyout
+
+    - name: saving the key pair for ec2_instance
+      copy:
+        content: "{{keyout.key.private_key}}"
+        dest: "./loginkey.pem"
+        mode: 0600
+      when: keyout.changed
+
+    - name: security group for load balancer
+      ec2_group:
+        name: vprofile-elb
+        description: allow port 80 from elb security
+        region: "{{region}}"
+        vpc_id: "{{vpcoutid}}"
+        state: present
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        tags:
+          Name: vprofile-elbsg
+      register: vproelbsg_out
+
+    - name: security group for vprofile-stack
+      ec2_group:
+        name: vprofile-stack
+        description: allow port 80 from bastion security group
+        region: "{{region}}"
+        vpc_id: "{{vpcoutid}}"
+        state: present
+        purge_rules: no
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            group_id: "{{vproelbsg_out.group_id}}"
+
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            group_id: "{{bastionsgid}}"
+      register: vprostacksg_out
+
+    - name: security group for vprofile
+      ec2_group:
+        name: vprofile-stack
+        description: allow all traffic from its own traffic
+        region: "{{region}}"
+        vpc_id: "{{vpcoutid}}"
+        state: present
+        rules:
+          - proto: all
+            group_id: "{{vprostacksg_out.group_id}}"
