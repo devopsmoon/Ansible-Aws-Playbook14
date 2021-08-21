@@ -8,7 +8,7 @@ prisub3id: subnet-092dfe230ce783b24
 igwid:  igw-00d9bd987fd0ddcfe
 pubrtid: rtb-0af3dd2847a915069
 natgwid: nat-0b40a06a73de34634
-prirtid:  rtb-001715892843baccf
+prirtid:  rtb-00b29798223a52f45
 # BEGIN ANSIBLE MANAGED BLOCK
 bastionsgid: sg-00882be085373f7bf
 # END ANSIBLE MANAGED BLOCK
